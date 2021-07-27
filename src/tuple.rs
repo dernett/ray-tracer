@@ -32,7 +32,6 @@ impl Tuple {
     }
 
     pub fn magnitude(self) -> f32 {
-        debug_assert!(self.is_vector());
         f32::sqrt(
             self.x * self.x
                 + self.y * self.y
@@ -42,12 +41,10 @@ impl Tuple {
     }
 
     pub fn normalize(self) -> Tuple {
-        debug_assert!(self.is_vector());
         self / self.magnitude()
     }
 
     pub fn dot(self, other: Tuple) -> f32 {
-        debug_assert!(self.is_vector() && other.is_vector());
         self.x * other.x
             + self.y * other.y
             + self.z * other.z
@@ -55,7 +52,6 @@ impl Tuple {
     }
 
     pub fn cross(self, other: Tuple) -> Tuple {
-        debug_assert!(self.is_vector() && other.is_vector());
         Tuple::vector(
             self.y * other.z - self.z * other.y,
             self.z * other.x - self.x * other.z,
@@ -64,11 +60,21 @@ impl Tuple {
     }
 }
 
+impl From<[f32; 4]> for Tuple {
+    fn from(arr: [f32; 4]) -> Self {
+        Self {
+            x: arr[0],
+            y: arr[1],
+            z: arr[2],
+            w: arr[3],
+        }
+    }
+}
+
 impl Add for Tuple {
     type Output = Self;
 
     fn add(self, other: Self) -> Self {
-        debug_assert!(self.is_vector() || other.is_vector());
         Self {
             x: self.x + other.x,
             y: self.y + other.y,
@@ -133,7 +139,6 @@ impl Sub for Tuple {
     type Output = Self;
 
     fn sub(self, other: Self) -> Self {
-        debug_assert!(self.is_point() || other.is_vector());
         Self {
             x: self.x - other.x,
             y: self.y - other.y,

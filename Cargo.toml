@@ -7,3 +7,4 @@ edition = "2018"
 
 [dependencies]
 approx = "0.5.0"
+itertools = "0.10.1"
